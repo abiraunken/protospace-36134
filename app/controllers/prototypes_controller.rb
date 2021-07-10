@@ -17,9 +17,29 @@ def create
 end
 
 def show
-  @prototype=Prototype.find(Path[:id])
+  @prototype = Prototype.find(params[:id])
+  @comment=Comment.new(params[:id])
 end
 
+def edit
+  @prototype=Prototype.find(params[:id])
+end
+
+
+def destroy
+  @prototype=Prototype.find(params[:id])
+  @prototype.destroy
+  redirect_to root_path
+end
+
+def update
+  @prototype=Prototype.find(params[:id])
+  if @prototype.update(prototype_params)
+  redirect_to root_path
+  else
+    render :show
+end
+end
 
 def move_index
   unless user_signed_in?
