@@ -1,18 +1,16 @@
 class PrototypesController < ApplicationController
-  before_action :authenticate_user!,only: [:edit]
-  
  def index
-  @prototypes=Prototype.all
+  @prototype=Prototype.all
 end
 
 def new
-  @prototypes=Prototype.new
+  @prototype=Prototype.new
 end
 
 def create
   @prototype=Prototype.new(prototype_params)
   if @prototype.save
-    redirect_to  prototype_path(id: current_user)
+    redirect_to root_path
   else
     render :new
   end
@@ -20,13 +18,11 @@ end
 
 def show
   @prototype = Prototype.find(params[:id])
-  @comment=Comment.new
-  @comments=Comment.all
+  @comment=Comment.new(params[:id])
 end
 
 def edit
   @prototype=Prototype.find(params[:id])
-  redirect_to action: :index
 end
 
 
