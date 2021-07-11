@@ -18,7 +18,7 @@ end
 
 def show
   @prototype = Prototype.find(params[:id])
-  @comment=Comment.new(params[:id])
+  @comment=Comment.new
 end
 
 def edit
