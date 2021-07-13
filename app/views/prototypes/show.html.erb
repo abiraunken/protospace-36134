@@ -4,29 +4,30 @@
       <p class="prototype__hedding">
         <%= "title"%>
       </p>
-      <%= link_to "by name", root_path, class: :prototype__user %>
+      <%= link_to (@prototype.user.name), user_path(@prototype.user.id), class: :prototype__user %>
+      <%= console %>
       <%# プロトタイプの投稿者とログインしているユーザーが同じであれば以下を表示する %>
-      <%if user_signed_in? %>
+      <%if user_signed_in?&& current_user.id == @prototype.user.id%>
         <div class="prototype__manage">
           <%= link_to "編集する", edit_prototype_path(@prototype.id),class: :prototype__btn %>
           <%= link_to "削除する",  prototype_path(@prototype.id), method: :delete,class: :prototype__btn %>
         </div>
         <% end %>
-      <%# // プロトタイプの投稿者とログインしているユーザーが同じであれば上記を表示する %>rai
+      <%# // プロトタイプの投稿者とログインしているユーザーが同じであれば上記を表示する %>
       <div class="prototype__image">
-        <%= image_tag(@prototype.image) %>
+        <%= image_tag(@prototype) %>
       </div>
       <div class="prototype__body">
         <div class="prototype__detail">
           <p class="detail__title">キャッチコピー</p>
           <p class="detail__message">
-            <%= "catch_copy" %>
+            <%= (@prototype.catch_copy) %>
           </p>
         </div>
         <div class="prototype__detail">
           <p class="detail__title">コンセプト</p>
           <p class="detail__message">
-            <%= "concept" %>
+            <%=(@prototype.concept)%>
           </p>
         </div>
       </div>
@@ -34,7 +35,7 @@
       <div class="prototype__comments">
         <%# ログインしているユーザーには以下のコメント投稿フォームを表示する %>
         <%if user_signed_in?%>
-          <%= form_with model:[@prototype, @comment], local: true do |f|%>
+          <%= form_with(model:[@prototype, @comment], local: true) do |f|%>
             <div class="field">
              <%= f.label :text, placeholder: "コメント",rows: "2"%><br />
               <%= f.text_field :text, id:"comment_text" %>
@@ -47,10 +48,12 @@
         <%# // ログインしているユーザーには上記を表示する %>
         <ul class="comments_lists">
           <%# 投稿に紐づくコメントを一覧する処理を記述する %>
+            <% @comments.each do |comment| %>
             <li class="comments_list">
-              <%= " コメントのテキスト "%>
-             <%= link_to "（ ユーザー名 ）", root_path, class: :comment_user %>
+              <%= comment.text%>
+             <%= link_to comment.user.name, user_path(comment.user.id), class: :comment_user %>
             </li>
+            <%end%>
           <%# // 投稿に紐づくコメントを一覧する処理を記述する %>
         </ul>
       </div>
