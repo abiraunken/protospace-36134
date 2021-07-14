@@ -5,7 +5,6 @@
         <%= @prototype.title %>
       </p>
       <%= link_to (@prototype.user.name), user_path(@prototype.user.id), class: :prototype__user %>
-      <%= console %>
       <%# プロトタイプの投稿者とログインしているユーザーが同じであれば以下を表示する %>
       <%if user_signed_in?&& current_user.id == @prototype.user.id%>
         <div class="prototype__manage">
@@ -15,7 +14,7 @@
         <% end %>
       <%# // プロトタイプの投稿者とログインしているユーザーが同じであれば上記を表示する %>
       <div class="prototype__image">
-        <%= image_tag(@prototype) %>
+        <%= image_tag(@prototype.image) %>
       </div>
       <div class="prototype__body">
         <div class="prototype__detail">
